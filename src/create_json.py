@@ -151,3 +151,6 @@ create_json(in_file,out_json)
 ## File format is rwl
 ### Understanding the rwl format: https://rdrr.io/cran/dplR/man/write.tucson.html
 ### Example file: https://www.treeringsociety.org/resources/SOM/Brewer_Murphy_SupplementaryMaterial.pdf
+
+## NOTES: work done thus far only cover rwl format.
+## Future objtvs: support for csv; Reflect on json req format. 
