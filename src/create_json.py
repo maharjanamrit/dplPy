@@ -34,40 +34,135 @@ import json
 import os
 
 # Testing purposes
-in_file = "../tests/data/rwl/co021.rwl" # to change such that file can be called from outside
+in_file = "../tests/data/rwl/co021_short.rwl" # to change such that file can be called from outside
 out_json = "./tree_loc_inf.json" # to change to something that the user wants specified (?)
+
+if os.path.exists(out_json):
+    os.remove(out_json)
+    print("out_json was overwritten")
+else:
+    print("nothing was deleted")
 
 # Create empty JSON
 def create_json(in_file, out_json):
     
     # Creating dictionary
     jsonfile = {}
-    
+
+    # Iterate through every line of the input file and assign strings
     with open(in_file, "r" ) as rings:
         data= rings.read()
         lines = data.splitlines()
-        # print (lines[0-2])
-        # read every single line
-        for  rows  in lines:
-            rows  = rows.split()
+
+        for rows in lines:
+            rows = rows.split()
             print(rows)
+            
+            # Assign primary key to first column (site_id)
             key = rows[0]
             jsonfile[key] = rows
+
+            # There has to be a better way to do this:
+            # Assignning na to non existing strings in rwl format
             try:
-                # site_id = rows[0]
                 site_name = rows[1]
-                species_code = rows[2]
+            except IndexError:
+                site_name = "na"
+            
+            try:
+                species_code = rows[2]              
+            except IndexError:
+                species_code = "na"            
+            
+            try:            
                 state_country = rows[3]
+            except IndexError:
+                state_country = "na"            
+            
+            try:              
                 species = rows[4]
+            except IndexError:
+                species = "na"            
+            
+            try:              
                 elevation = rows[5]
-                latitude = rows[6]
+            except IndexError:
+                elevation = "na"            
+            
+            try:              
+                latitude = rows[6]         
+            except IndexError:
+                latitude = "na"            
+            
+            try:              
                 longitude = rows[7]
+            except IndexError:            
+                longitude = "na"
+            
+            try:              
                 first_year = rows[8]
-                last_year= rows[9]
+            except IndexError:
+                first_year = "na"            
+            
+            try:             
+                last_year = rows[9]
+            except IndexError:     
+                last_year = "na"       
+            
+            try:                          
                 lead_inv = rows[10]
+            except IndexError:
+                lead_inv = "na"
+            
+            try:
                 completion = rows[11]
-            except IndexError: 
-                pass
+            except IndexError:
+                completion = "na"
+
+        # Assign strigs
+        jsonfile["site_name"] = site_name
+        jsonfile["species_code"] = species_code
+        jsonfile["state_country"] = state_country
+        jsonfile["species_name"] = species
+        jsonfile["elevation"] = elevation
+        jsonfile["latitude"] = latitude
+        jsonfile["longitude"] = longitude
+        jsonfile["first_year"] = first_year
+        jsonfile["last_year"] = last_year
+        jsonfile["lead_investigator"] = lead_inv
+        jsonfile["completion_date"] = completion
+        
+        # if unit == "999":
+        #     jsonfile["unit"] = "0.01mm"
+        # elif unit == "-9999":
+        #     jsonfile["unit"] = "0.001mm"
+        # else:
+        #     print("ERROR - Stop code is not 999 or -9999. Cannot identify a unit.")
+        #     exit
+
+        # Testing purposes
+        with open(out_json, 'a', encoding='utf-8') as jsonf:
+            # while(len(lines)):
+            jsonf.write(json.dumps(jsonfile, indent=4))
+
+# Driver Code
+ 
+# Decide the two file paths according to your
+# computer system
+
+# Testing
+create_json(in_file,out_json)
+# Input file format
+## File format is rwl
+### Understanding the rwl format: https://rdrr.io/cran/dplR/man/write.tucson.html
+### Example file: https://www.treeringsociety.org/resources/SOM/Brewer_Murphy_SupplementaryMaterial.pdf
+
+## NOTES: work done thus far only cover rwl format.
+## Future objtvs: support for csv; Reflect on json req format. 
+
+
+
+
 
         # convert every element in each list to string- it is easier to manupilate the elements
 
@@ -117,40 +212,3 @@ def create_json(in_file, out_json):
         #         pts=0
     
         # jsonfile["site_id"] = site_id
-        jsonfile["site_name"] = site_name
-        jsonfile["species_code"] = species_code
-        jsonfile["state_country"] = state_country
-        jsonfile["species_name"] = species
-        jsonfile["elevation"] = elevation
-        jsonfile["latitude"] = latitude
-        jsonfile["longitude"] = longitude
-        jsonfile["first_year"] = first_year
-        jsonfile["last_year"] = last_year
-        jsonfile["lead_investigator"] = lead_inv
-        jsonfile["completion_date"] = completion
-        # if unit == "999":
-        #     jsonfile["unit"] = "0.01mm"
-        # elif unit == "-9999":
-        #     jsonfile["unit"] = "0.001mm"
-        # else:
-        #     print("ERROR - Stop code is not 999 or -9999. Cannot identify a unit.")
-        #     exit
-
-        # Testing purposes
-    with open(out_json, 'w', encoding='utf-8') as jsonf:
-        jsonf.write(json.dumps(jsonfile, indent=4))
-
-# Driver Code
- 
-# Decide the two file paths according to your
-# computer system
-
-# Testing
-create_json(in_file,out_json)
-# Input file format
-## File format is rwl
-### Understanding the rwl format: https://rdrr.io/cran/dplR/man/write.tucson.html
-### Example file: https://www.treeringsociety.org/resources/SOM/Brewer_Murphy_SupplementaryMaterial.pdf
-
-## NOTES: work done thus far only cover rwl format.
-## Future objtvs: support for csv; Reflect on json req format. 
