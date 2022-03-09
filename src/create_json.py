@@ -32,6 +32,8 @@ __license__ = "GNU GPL3"
 import csv
 import json
 import os
+import pandas as pd
+import re
 
 # Testing purposes
 in_file = "../tests/data/rwl/co021_short.rwl" # to change such that file can be called from outside
@@ -46,92 +48,132 @@ else:
 # Create empty JSON
 def create_json(in_file, out_json):
     
-    # Creating dictionary
-    jsonfile = {}
+    # Creating dictionary, json array
+    dictionary = {}
+    json_arr = []
+    # df = pd.DataFrame(columns = ["site_id","site_name","species_code","state_country",
+    # "species_name","elevation","latitude","longitude","first_year",
+    # "last_year","lead_investigator","completion_date"])
 
     # Iterate through every line of the input file and assign strings
     with open(in_file, "r" ) as rings:
         data= rings.read()
-        lines = data.splitlines()
+        lines = data.splitlines() # splits lines
+    
+    all_rows = []
+    for rows in lines:
+        rows = re.sub("\s+",",",rows.strip()) # splits strings by spaces (default)
+        all_rows.append(rows.split(","))
 
-        for rows in lines:
-            rows = rows.split()
-            print(rows)
-            
-            # Assign primary key to first column (site_id)
-            key = rows[0]
-            jsonfile[key] = rows
+    df = pd.DataFrame(all_rows, columns = ["site_id","site_name","species_code","state_country",
+    "species_name","elevation","latitude","longitude","first_year",
+    "last_year","lead_investigator","completion_date"])
+    
+    # df = df.set_index("site_id")
+    # df = df.fillna(value="None")
+    print(df)
+    result = df.to_json("temp.json", orient="records")
+    json.dumps(result, indent = 4,  sort_keys = True)
 
-            # There has to be a better way to do this:
-            # Assignning na to non existing strings in rwl format
-            try:
-                site_name = rows[1]
-            except IndexError:
-                site_name = "na"
-            
-            try:
-                species_code = rows[2]              
-            except IndexError:
-                species_code = "na"            
-            
-            try:            
-                state_country = rows[3]
-            except IndexError:
-                state_country = "na"            
-            
-            try:              
-                species = rows[4]
-            except IndexError:
-                species = "na"            
-            
-            try:              
-                elevation = rows[5]
-            except IndexError:
-                elevation = "na"            
-            
-            try:              
-                latitude = rows[6]         
-            except IndexError:
-                latitude = "na"            
-            
-            try:              
-                longitude = rows[7]
-            except IndexError:            
-                longitude = "na"
-            
-            try:              
-                first_year = rows[8]
-            except IndexError:
-                first_year = "na"            
-            
-            try:             
-                last_year = rows[9]
-            except IndexError:     
-                last_year = "na"       
-            
-            try:                          
-                lead_inv = rows[10]
-            except IndexError:
-                lead_inv = "na"
-            
-            try:
-                completion = rows[11]
-            except IndexError:
-                completion = "na"
 
-        # Assign strigs
-        jsonfile["site_name"] = site_name
-        jsonfile["species_code"] = species_code
-        jsonfile["state_country"] = state_country
-        jsonfile["species_name"] = species
-        jsonfile["elevation"] = elevation
-        jsonfile["latitude"] = latitude
-        jsonfile["longitude"] = longitude
-        jsonfile["first_year"] = first_year
-        jsonfile["last_year"] = last_year
-        jsonfile["lead_investigator"] = lead_inv
-        jsonfile["completion_date"] = completion
+    ##### MAJOR REWRITE. JSON IS NOT PRETTY, BUT DOES THE JOB. CODE WORKS FOR RWL FORMAT.
+    ##### TO DO: PRETTIFY, CSV, TEST AND CHECK.
+    
+
+        # df.append(int(rows))
+        # print(rows)
+
+    # df = pd.DataFrame(rows)
+    # print(df)
+    # df.columns = ["site_id","site_name","species_code","state_country",
+    #                 "species_name","elevation","latitude","longitude","first_year",
+    #                 "last_year","lead_investigator","completion_date"]
+
+    # df.to_csv("test.csv")   
         
+        # # Assign primary key to first column (site_id)
+        # key = rows[0]
+        # dictionary[key] = rows
+
+        # # There has to be a better way to do this:
+        # # Assignning na to non existing strings in rwl format
+        # try:
+        #     site_name = rows[1]
+        # except IndexError:
+        #     site_name = "na"
+        
+        # try:
+        #     species_code = rows[2]              
+        # except IndexError:
+        #     species_code = "na"            
+        
+        # try:            
+        #     state_country = rows[3]
+        # except IndexError:
+        #     state_country = "na"            
+        
+        # try:              
+        #     species = rows[4]
+        # except IndexError:
+        #     species = "na"            
+        
+        # try:              
+        #     elevation = rows[5]
+        # except IndexError:
+        #     elevation = "na"            
+        
+        # try:              
+        #     latitude = rows[6]         
+        # except IndexError:
+        #     latitude = "na"            
+        
+        # try:              
+        #     longitude = rows[7]
+        # except IndexError:            
+        #     longitude = "na"
+        
+        # try:              
+        #     first_year = rows[8]
+        # except IndexError:
+        #     first_year = "na"            
+        
+        # try:             
+        #     last_year = rows[9]
+        # except IndexError:     
+        #     last_year = "na"       
+        
+        # try:                          
+        #     lead_inv = rows[10]
+        # except IndexError:
+        #     lead_inv = "na"
+        
+        # try:
+        #     completion = rows[11]
+        # except IndexError:
+        #     completion = "na"
+
+        # # Assign strigs
+        # dictionary["site_name"] = site_name
+        # dictionary["species_code"] = species_code
+        # dictionary["state_country"] = state_country
+        # dictionary["species_name"] = species
+        # dictionary["elevation"] = elevation
+        # dictionary["latitude"] = latitude
+        # dictionary["longitude"] = longitude
+        # dictionary["first_year"] = first_year
+        # dictionary["last_year"] = last_year
+        # dictionary["lead_investigator"] = lead_inv
+        # dictionary["completion_date"] = completion
+
+        # json_out = json.dumps(dictionary, indent = 4)
+    
+        # json_arr.append(json_out)
+
+    # with open(out_json, 'a', encoding='utf-8') as jsonf:
+    #     # while(len(lines)):
+    #     json.dump(json_arr, jsonf)
+
+
         # if unit == "999":
         #     jsonfile["unit"] = "0.01mm"
         # elif unit == "-9999":
@@ -141,9 +183,9 @@ def create_json(in_file, out_json):
         #     exit
 
         # Testing purposes
-        with open(out_json, 'a', encoding='utf-8') as jsonf:
-            # while(len(lines)):
-            jsonf.write(json.dumps(jsonfile, indent=4))
+    # with open(out_json, 'a', encoding='utf-8') as jsonf:
+    #     # while(len(lines)):
+    #     jsonf.write(json.dumps(jsonfile, indent=4))
 
 # Driver Code
  
