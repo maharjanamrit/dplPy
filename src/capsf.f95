@@ -55,7 +55,8 @@
       arg=(2.d0*pi)/v
 !      p=(6.d0*(cos(arg)-1.d0)**2.d0)/(cos(arg)+2.d0)
       pp=sngl(p) ! this doesn't do anything, right?
-      p=((1.d0/(1.d0-pct)-1.d0)*6.d0*(cos(pi*2.d0/v)-1.d0)**2)/(cos(pi*2.d0/v)+2.d0)
+      p=((1.d0/(1.d0-pct)-1.d0)*6.d0*(cos(pi*2.d0/v)-1.d0)**2)/ &
+        (cos(pi*2.d0/v)+2.d0)
 !cc      p2=(6.d0*(cos(arg)-1.d0)**2.d0)/((2.d0**0.5d0-1.d0)*
 !cc     *		(sqrt(arg)+2.d0))
       do i=1,nm2
