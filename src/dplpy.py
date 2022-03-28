@@ -35,7 +35,6 @@ __license__ = "GNU GPLv3"
 # >>> dpl.writers(input="tests/csv/ca533.csv",output="ca533.rwl")
 
 import argparse
-from bs4 import BeautifulSoup
 import os
 import sys
 import webbrowser
@@ -155,7 +154,7 @@ def readers_from_parser(args):
     readers(input=args.input)
 
 # set the definition for the Writers funcitons (from writers.py)
-#def writers_from_parser(args):
+# def writers_from_parser(args):
 #    writers(input=args.input,output=args.output)
 
 # Summary
@@ -168,6 +167,9 @@ def stats_from_parser(args):
 
 def report_from_parser(args):
     report(input=args.input)
+
+def plot_from_parser(args):
+    plot(input=args.input)
 
 # creates whitespace
 print("")
@@ -183,6 +185,7 @@ from readers import readers
 from summary import summary
 from stats import stats
 from report import report
+from plot import plot
 
 def main(args=None):
     parser = argparse.ArgumentParser(description="dplPy v0.1") # update version as we update packages
