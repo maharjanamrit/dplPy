@@ -23,4 +23,5 @@ def univariate_data(series):
     yi = csaps(x, y, x, smooth=p)
 
     plt.plot(x, y, "o", x, yi, "-")
-    plt.savefig("spline.png")
+    print("Drawing")
+    plt.show()

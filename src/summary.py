@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 __copyright__ = """
    dplPy for tree ring width time series analyses
    Copyright (C) 2022  OpenDendro

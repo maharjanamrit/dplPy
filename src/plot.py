@@ -1,8 +1,9 @@
 import pandas as pd
-import matplotlib as mp
+import matplotlib.pyplot as plt
 from readers import readers
+from smoothingspline import univariate_data
 
-def plot(inp, type="line"):
+def plot(inp):
     if isinstance(inp, pd.DataFrame):
         series_data = inp
     elif isinstance(inp, str):
@@ -10,7 +11,11 @@ def plot(inp, type="line"):
     else:
         return
 
-    if type == "line":
-        result = series_data.plot.line()
+    for series_name, data in series_data.items():
+        univariate_data(data)
+        break
 
-    pass
+    #if type == "line":
+    #    print("Hello")
+    #    plt.plot(series_data)
+    #    plt.show(block=True)
