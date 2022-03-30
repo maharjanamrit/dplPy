@@ -55,25 +55,25 @@ The Conda enviroment is essential as it provides will all necessary packages. To
 
 ### Linux, MacOS
 
-1. In your VSCode terminal, activate the conda environment with `conda activate dplpy3`.
-2. Open a Jupyer Notebook (`<file>.ipynb`) and select the `dplpy3` Kernel when prompted (or from the top right of your screen).
+1\. In your VSCode terminal, activate the conda environment with `conda activate dplpy3`.
+2\. Open a Jupyer Notebook (`<file>.ipynb`) and select the `dplpy3` Kernel when prompted (or from the top right of your screen).
 This will automatically load the environment we created.
 
 ### Windows
 
 In VSCode:
 
-1. In your VSCode terminal window, activate the conda environment with `conda activate dplpy3`.
-2. In the same terminal window, start a Jupyter Notebook with `jupyter notebook`. Jupyter will then return URLs that you can copy; *Copy* one of these URLs. 
+1\. In your VSCode terminal window, activate the conda environment with `conda activate dplpy3`.
+2\. In the same terminal window, start a Jupyter Notebook with `jupyter notebook`. Jupyter will then return URLs that you can copy; *Copy* one of these URLs. 
 
-![ipynb_env1](docs/assets/ipynb_env1.png)
+![ipynb_env1](docs/assets/ipynb_env1.jpg)
 
 3\. Open a Jupyter Notebook (`<file>.ipynb`) and from the **bottom right** of the VSCode screen, click **Jupyter Server**;
 
-![ipynb_env2](docs/assets/ipynb_env2.png) 
+![ipynb_env2](docs/assets/ipynb_env2.jpg) 
 
 A dropdown menu will open from the top of the screen: select Existing and *paste* the URL you copied.
 
-![ipynb_env3](docs/assets/ipynb_env3.png)
+![ipynb_env3](docs/assets/ipynb_env3.jpg)
 
 4\. Jupyter Notebook will now be able to access the environment created.
