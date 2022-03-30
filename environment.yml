@@ -1,4 +1,4 @@
-name: dplpy3
+name: dplpy4
 channels:
   - conda-forge
   - defaults
@@ -11,4 +11,5 @@ dependencies:
   - numpy
   - scipy
   - gfortran
-  
+  - jupyterlab
+  - jupyter_contrib_nbextensions
